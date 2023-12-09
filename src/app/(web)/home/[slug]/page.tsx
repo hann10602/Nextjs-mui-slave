@@ -1,5 +1,5 @@
+import { User } from "@/types/user.type";
 import React from "react";
-import { User } from "../UserList";
 
 type Props = {
   params: { slug: string };
