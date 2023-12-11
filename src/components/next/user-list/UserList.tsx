@@ -27,6 +27,7 @@ const UserList = ({ userList }: Props) => {
 
   const handleRowsPerPageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(Number(e.target.value));
+    setPage(0);
   };
 
   return (
@@ -43,22 +44,25 @@ const UserList = ({ userList }: Props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {userList.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell align="center">{user.id}</TableCell>
-                  <TableCell align="center">{user.firstName}</TableCell>
-                  <TableCell align="center">{user.lastName}</TableCell>
-                  <TableCell align="center">{user.age}</TableCell>
-                </TableRow>
-              )) || []}
+              {userList
+                .slice(page * rowsPerPage, rowsPerPage * (page + 1))
+                .map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell align="center">{user.id}</TableCell>
+                    <TableCell align="center">{user.firstName}</TableCell>
+                    <TableCell align="center">{user.lastName}</TableCell>
+                    <TableCell align="center">{user.age}</TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 15]}
+          component="div"
           rowsPerPage={rowsPerPage}
           onRowsPerPageChange={handleRowsPerPageChange}
-          count={25}
+          count={userList.length}
           onPageChange={handlePageChange}
           page={page}
         />
